@@ -1,0 +1,5 @@
+<% if workflow.use_bespoke is defined and workflow.use_bespoke is true %>
+  <%- extends workflow.file_name + ".j2" | string +%>
+<% else %>
+  <%- extends "generic.yml.j2" +%>
+<% endif %>

@@ -1,0 +1,49 @@
+name: Generate kolla config diff
+
+concurrency:
+  group: kolla-diff-${{ github.head_ref }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+
+jobs:
+  config-diff:
+    runs-on: %% runner_name %%
+    permissions:
+      contents: read
+      packages: read
+    container:
+      image: ghcr.io/${{ github.repository }}:latest
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Checkout kayobe config
+        uses: actions/checkout@v3
+        with:
+           submodules: true
+           fetch-depth: 0
+           ref: ${{ github.ref }}
+
+      - name: Copy checkout to expected location
+        run: |
+            sudo cp -rf $GITHUB_WORKSPACE/ /src
+            sudo chown stack:stack -Rf /src
+
+      - name: Run config diff
+        run: |
+            sudo -E -u stack bash -c '/src/.automation/pipeline/config-diff.sh ${{ github.event.pull_request.base.sha }}'
+        env:
+          KAYOBE_ENVIRONMENT: '%% kayobe_arguments.KAYOBE_ENVIRONMENT | default(_kayobe_arguments.KAYOBE_ENVIRONMENT) %%'
+          KAYOBE_VAULT_PASSWORD: '%% kayobe_arguments.KAYOBE_VAULT_PASSWORD | default(_kayobe_arguments.KAYOBE_VAULT_PASSWORD) %%'
+          KAYOBE_AUTOMATION_SSH_PRIVATE_KEY: '%% kayobe_arguments.KAYOBE_AUTOMATION_SSH_PRIVATE_KEY | default(_kayobe_arguments.KAYOBE_AUTOMATION_SSH_PRIVATE_KEY) %%'
+          HOME: '%% kayobe_arguments.HOME | default(_kayobe_arguments.HOME) %%'
+
+      - name: Show summary of changes
+        run: |
+          diffstat < /tmp/kayobe-config-diff
+
+      - name: Print diff
+        run: |
+          cat /tmp/kayobe-config-diff
