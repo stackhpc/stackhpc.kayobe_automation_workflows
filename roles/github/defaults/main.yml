@@ -1,15 +1,15 @@
 ---
-output_directory: .github/workflows
+github_output_directory: .github/workflows
 
-runner_name: self-hosted
+github_runs_on: self-hosted
 
-image_url: ghcr.io/${{ github.repository }}:latest
+github_image_url: ghcr.io/${{ github.repository }}:latest
 
-registry_password: ${{ secrets.GITHUB_TOKEN }}
+github_registry_password: ${{ secrets.GITHUB_TOKEN }}
 
-kayobe_arguments: []
+github_kayobe_arguments: {}
 
-kayobe_inputs: &kayobe_inputs
+github_kayobe_inputs: &github_kayobe_inputs
   kayobeLimit:
     description: |
       The ansible limit to use when running kayobe playbooks.
@@ -17,7 +17,7 @@ kayobe_inputs: &kayobe_inputs
     description: |
       The ansible tags to use when running kayobe playbooks.
 
-kolla_inputs: &kolla_inputs
+github_kolla_inputs: &github_kolla_inputs
   kollaLimit:
     description: |
       The ansible limit to use for kolla-ansible playbooks.
@@ -25,10 +25,10 @@ kolla_inputs: &kolla_inputs
     description: |
       The ansible tags to use when running kolla-ansible playbooks.
 
-combined_inputs: &combined_inputs
-  <<: [ *kayobe_inputs, *kolla_inputs ]
+github_combined_inputs: &github_combined_inputs
+  <<: [*github_kayobe_inputs, *github_kolla_inputs]
 
-workflows:
+github_workflows:
   - name: Build kayobe image
     file_name: build-kayobe-docker-image.yml
     use_bespoke: true
@@ -40,7 +40,7 @@ workflows:
   - name: Run infra VM host configure
     file_name: run-infra-vm-host-configure.yml
     trigger:
-      workflow_dispatch: *kayobe_inputs
+      workflow_dispatch: *github_kayobe_inputs
     arguments:
       - KAYOBE_TAGS
       - KAYOBE_LIMIT
@@ -49,7 +49,7 @@ workflows:
   - name: Run infra VM host package update
     file_name: run-infra-vm-host-package-update.yml
     trigger:
-      workflow_dispatch: *kayobe_inputs
+      workflow_dispatch: *github_kayobe_inputs
     arguments:
       - KAYOBE_TAGS
       - KAYOBE_LIMIT
@@ -58,7 +58,7 @@ workflows:
   - name: Run infra VM provision
     file_name: run-infra-vm-provision.yml
     trigger:
-      workflow_dispatch: *kayobe_inputs
+      workflow_dispatch: *github_kayobe_inputs
     arguments:
       - KAYOBE_TAGS
       - KAYOBE_LIMIT
@@ -67,7 +67,7 @@ workflows:
   - name: Run infra VM service deploy
     file_name: run-infra-vm-service-deploy.yml
     trigger:
-      workflow_dispatch: *kayobe_inputs
+      workflow_dispatch: *github_kayobe_inputs
     arguments:
       - KAYOBE_TAGS
       - KAYOBE_LIMIT
@@ -76,7 +76,7 @@ workflows:
   - name: Run network connectivity check
     file_name: run-network-connectivity-check.yml
     trigger:
-      workflow_dispatch: *kayobe_inputs
+      workflow_dispatch: *github_kayobe_inputs
     arguments:
       - KAYOBE_TAGS
       - KAYOBE_LIMIT
@@ -85,7 +85,7 @@ workflows:
   - name: Run overcloud container image pull
     file_name: run-overcloud-container-image-pull.yml
     trigger:
-      workflow_dispatch: *combined_inputs
+      workflow_dispatch: *github_combined_inputs
     arguments:
       - KOLLA_TAGS
       - KOLLA_LIMIT
@@ -96,7 +96,7 @@ workflows:
   - name: Run overcloud database backup
     file_name: run-overcloud-database-backup.yml
     trigger:
-      workflow_dispatch: *combined_inputs
+      workflow_dispatch: *github_combined_inputs
     arguments:
       - KOLLA_TAGS
       - KOLLA_LIMIT
@@ -107,7 +107,7 @@ workflows:
   - name: Run overcloud host configure
     file_name: run-overcloud-host-configure.yml
     trigger:
-      workflow_dispatch: *combined_inputs
+      workflow_dispatch: *github_combined_inputs
     arguments:
       - KOLLA_TAGS
       - KOLLA_LIMIT
@@ -118,7 +118,7 @@ workflows:
   - name: Run overcloud host package update
     file_name: run-overcloud-host-package-update.yml
     trigger:
-      workflow_dispatch: *kayobe_inputs
+      workflow_dispatch: *github_kayobe_inputs
     arguments:
       - KAYOBE_TAGS
       - KAYOBE_LIMIT
@@ -127,7 +127,7 @@ workflows:
   - name: Run overcloud inventory discover
     file_name: run-overcloud-inventory-discover.yml
     trigger:
-      workflow_dispatch: *kayobe_inputs
+      workflow_dispatch: *github_kayobe_inputs
     arguments:
       - KAYOBE_TAGS
       - KAYOBE_LIMIT
@@ -143,7 +143,7 @@ workflows:
   - name: Run overcloud provision
     file_name: run-overcloud-provision.yml
     trigger:
-      workflow_dispatch: *kayobe_inputs
+      workflow_dispatch: *github_kayobe_inputs
     arguments:
       - KAYOBE_TAGS
       - KAYOBE_LIMIT
@@ -152,7 +152,7 @@ workflows:
   - name: Run overcloud service deploy
     file_name: run-overcloud-service-deploy.yml
     trigger:
-      workflow_dispatch: *combined_inputs
+      workflow_dispatch: *github_combined_inputs
     arguments:
       - KOLLA_TAGS
       - KOLLA_LIMIT
@@ -170,7 +170,7 @@ workflows:
   - name: Run overcloud service reconfigure
     file_name: run-overcloud-service-reconfigure.yml
     trigger:
-      workflow_dispatch: *combined_inputs
+      workflow_dispatch: *github_combined_inputs
     arguments:
       - KOLLA_TAGS
       - KOLLA_LIMIT
@@ -188,7 +188,7 @@ workflows:
   - name: Run overcloud service upgrade
     file_name: run-overcloud-service-upgrade.yml
     trigger:
-      workflow_dispatch: *combined_inputs
+      workflow_dispatch: *github_combined_inputs
     arguments:
       - KOLLA_TAGS
       - KOLLA_LIMIT
@@ -206,7 +206,7 @@ workflows:
   - name: Run seed host configure
     file_name: run-seed-host-configure.yml
     trigger:
-      workflow_dispatch: *combined_inputs
+      workflow_dispatch: *github_combined_inputs
     arguments:
       - KOLLA_TAGS
       - KOLLA_LIMIT
@@ -217,7 +217,7 @@ workflows:
   - name: Run seed host package update
     file_name: run-seed-host-package-update.yml
     trigger:
-      workflow_dispatch: *kayobe_inputs
+      workflow_dispatch: *github_kayobe_inputs
     arguments:
       - KAYOBE_TAGS
       - KAYOBE_LIMIT
@@ -226,7 +226,7 @@ workflows:
   - name: Run seed hypervisor host configure
     file_name: run-seed-hypervisor-host-configure.yml
     trigger:
-      workflow_dispatch: *kayobe_inputs
+      workflow_dispatch: *github_kayobe_inputs
     arguments:
       - KAYOBE_TAGS
       - KAYOBE_LIMIT
@@ -235,7 +235,7 @@ workflows:
   - name: Run seed hypervisor host package update
     file_name: run-seed-hypervisor-host-package-update.yml
     trigger:
-      workflow_dispatch: *kayobe_inputs
+      workflow_dispatch: *github_kayobe_inputs
     arguments:
       - KAYOBE_TAGS
       - KAYOBE_LIMIT
@@ -244,7 +244,7 @@ workflows:
   - name: Run seed service deploy
     file_name: run-seed-service-deploy.yml
     trigger:
-      workflow_dispatch: *combined_inputs
+      workflow_dispatch: *github_combined_inputs
     arguments:
       - KOLLA_TAGS
       - KOLLA_LIMIT
@@ -262,7 +262,7 @@ workflows:
   - name: Run seed VM provision
     file_name: run-seed-vm-provision.yml
     trigger:
-      workflow_dispatch: *kayobe_inputs
+      workflow_dispatch: *github_kayobe_inputs
     arguments:
       - KAYOBE_TAGS
       - KAYOBE_LIMIT

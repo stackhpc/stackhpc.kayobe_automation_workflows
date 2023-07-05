@@ -2,15 +2,15 @@
 
 jobs:
   %% workflow.file_name[4:-4] %%:
-    runs-on: %% runner_name %%
+    runs-on: %% github_runs_on %%
     permissions:
       contents: read
       packages: read
     container:
-      image: %% image_url %%
+      image: %% github_image_url %%
       credentials:
         username: ${{ github.actor }}
-        password: %% registry_password %%
+        password: %% github_registry_password %%
     steps:
 <%- filter indent(width=6,first=False) +%>
 <%- include "hooks/pre-checkout.yml.j2" ignore missing +%>
