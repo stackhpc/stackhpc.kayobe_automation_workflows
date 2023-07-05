@@ -36,7 +36,7 @@ The following variables can be used to make small adjustments to the composition
 
 `output_directory`: control the location where the workflows shall be written to.
 
-`runner_name`: name of the GitHub runner used by the workflows see [runs-on](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idruns-on).
+`runs_on`: control which runner can accept this workflow. See GitHub for more information on [runs-on](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idruns-on).
 
 `image_url`: full URL of the kayobe container image complete with registry and tag.
 
