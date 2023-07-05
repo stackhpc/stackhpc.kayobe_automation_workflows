@@ -58,10 +58,12 @@ If you wish to make more impactful changes such as which workflows are built and
 
 - `arguments`: list of arguments keys used by the automation task the contents will be acquired from `kayobe_arguments` or the defaults.
 
+- `use_bespoke`: Some workflows benefit from a dedicated workflow template as they drift away from the main template. Set to `true` if the workflow requires a *bespoke* template and ensure a template `workflow_name.yml.j2` is present.
+
 The following will override `workflows` to ensure only `Run overcloud database backup` is generated.
 
 ```yaml
-workflows:
+github_workflows:
   - name: Run overcloud database backup
     file_name: run-overcloud-database-backup.yml
     trigger:
