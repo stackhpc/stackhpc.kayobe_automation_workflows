@@ -40,6 +40,8 @@ The following variables can be used to make small adjustments to the composition
 
 `github_image_url`: full URL of the kayobe container image complete with registry and tag.
 
+`github_registry_username`: username used to authenticate with the docker registry.
+
 `github_registry_password`: password used to authenticate with the docker registry.
 
 `github_kayobe_arguments`: a dictionary of arguments that can be used to override the default arguments found within `vars/main.yml`. For example if you wanted to change the value of `KAYOBE_ENVIRONMENT` from its default of `production` you can simply add `KAYOBE_ENVIRONMENT` to this dictionary and it will take precedence over the defaults.
