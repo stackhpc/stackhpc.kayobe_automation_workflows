@@ -90,34 +90,6 @@ The following example playbook will generate a series of `reference` workflows w
     - stackhpc.kayobe_automation_workflows.github
 ```
 
-Hooks [Experimental]
---------------------
-
-> :warning: This feature is marked as `experimental` at the moment as it is not clear how to configure `ansible.builtin.template` to look at the `${{ playbook_dir }}/templates/hooks/`.
-
-Workflows can be expanded with the use of `hooks` which are templates that if provided can be inserted into the appropriate location enabling the introduction of additional steps within the workflow job.
-This could include the use of HashiCorp Vault or installing and configuring a network proxy.
-
-
-
-```yaml
-
-- name: Import secrets via Hashicorp Vault
-  id: secrets
-  uses: hashicorp/vault-action@v2.5.0
-  with:
-    url: https://vault.stackhpc.com:8200
-    method: approle
-    roleId:  ${{ secrets.ROLE_ID }}
-    secretId: ${{ secrets.SECRET_ID }}
-    tlsSkipVerify: true
-    secrets: |
-      stackhpc/data/github kayobe_vault_password_${{ needs.env.outputs.environment }} | KAYOBE_VAULT_PASSWORD ;
-      stackhpc/data/github kayobe_automation_ssh_private_key_${{ needs.env.outputs.environment }} | KAYOBE_AUTOMATION_SSH_PRIVATE_KEY ;
-
-
-```
-
 License
 -------
 
