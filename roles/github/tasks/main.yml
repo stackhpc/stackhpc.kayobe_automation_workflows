@@ -3,7 +3,7 @@
   ansible.builtin.file:
     dest: "{{ output_directory }}"
     state: directory
-    mode: "0700"
+    mode: "755"
 
 - name: Ensure workflow file exists
   ansible.builtin.template:
