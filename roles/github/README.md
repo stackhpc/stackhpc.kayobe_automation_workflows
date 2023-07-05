@@ -84,10 +84,10 @@ Example Playbook
 The following example playbook will generate a series of `reference` workflows which can be found under `.github/workflows`
 
 ```yaml
-- name: Write Kayobe Automation Workflows
+- name: Write Kayobe Automation Workflows for GitHub
   hosts: localhost
-  collections:
-    - stackhpc.kayobe_automation_workflows
+  roles:
+    - stackhpc.kayobe_automation_workflows.github
 ```
 
 Hooks [Experimental]
