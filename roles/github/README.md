@@ -1,4 +1,4 @@
-Kayobe Automation Workflow (GitHub)
+Kayobe Automation Workflows (GitHub)
 =========
 
 This Ansible role is capable of generating GitHub workflow files for performing CI/CD related activities with OpenStack via Kayobe.
