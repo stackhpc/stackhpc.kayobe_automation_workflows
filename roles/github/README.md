@@ -20,7 +20,6 @@ See the table below for a full list of all the currently supported kayobe automa
 | **run-overcloud-inventory-discover** | Get an inventory of nodes. |
 | **run-overcloud-provision** | Provision overcloud nodes. |
 | **run-overcloud-service-deploy** | Deploy overcloud services. |
-| **run-overcloud-service-reconfigure** | Reconfigure services across the overcloud. |
 | **run-overcloud-service-upgrade** | Perform an upgrade of overcloud services. |
 | **run-seed-host-configure** | Configure the seed host. |
 | **run-seed-host-package-update** | Update the system packages of the seed host. |
