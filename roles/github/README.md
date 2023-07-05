@@ -34,19 +34,19 @@ Role Variables
 
 The following variables can be used to make small adjustments to the composition of the workflows.
 
-`output_directory`: control the location where the workflows shall be written to.
+`github_output_directory`: control the location where the workflows shall be written to.
 
-`runs_on`: control which runner can accept this workflow. See GitHub for more information on [runs-on](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idruns-on).
+`github_runs_on`: control which runner can accept this workflow. See GitHub for more information on [runs-on](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idruns-on).
 
-`image_url`: full URL of the kayobe container image complete with registry and tag.
+`github_image_url`: full URL of the kayobe container image complete with registry and tag.
 
-`registry_password`: password used to authenticate with the docker registry.
+`github_registry_password`: password used to authenticate with the docker registry.
 
-`kayobe_arguments`: a dictionary of arguments that can be used to override the default arguments found within `vars/main.yml`. For example if you wanted to change the value of `KAYOBE_ENVIRONMENT` from its default of `production` you can simply add `KAYOBE_ENVIRONMENT` to this dictionary and it will take precedence over the defaults.
+`github_kayobe_arguments`: a dictionary of arguments that can be used to override the default arguments found within `vars/main.yml`. For example if you wanted to change the value of `KAYOBE_ENVIRONMENT` from its default of `production` you can simply add `KAYOBE_ENVIRONMENT` to this dictionary and it will take precedence over the defaults.
 
 If you wish to make more impactful changes such as which workflows are built and what they contain then see the list of dictionaries called `workflows` in `defaults/main.yml`
 
-`workflows:` is a list of dictionaries that contains each of the workflows described above. A given list element is made up of the following:
+`github_workflows:` is a list of dictionaries that contains each of the workflows described above. A given list element is made up of the following:
 
 - `name`: the name which the workflow shall refer to itself as within GitHub workflows user interface.
 
