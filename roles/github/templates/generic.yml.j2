@@ -7,9 +7,9 @@ jobs:
       contents: read
       packages: read
     container:
-      image: %% github_image_url %%
+      image: %% github_registry_url %%/%% github_image_name %%
       credentials:
-        username: ${{ github.actor }}
+        username: %% github_registry_username %%
         password: %% github_registry_password %%
     steps:
 <%- filter indent(width=6,first=False) +%>

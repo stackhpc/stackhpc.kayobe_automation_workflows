@@ -14,10 +14,10 @@ jobs:
       contents: read
       packages: read
     container:
-      image: ghcr.io/${{ github.repository }}:latest
+      image: %% github_registry_url %%/%% github_image_name %%
       credentials:
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+        username: %% github_registry_username %%
+        password: %% github_registry_password %%
     steps:
       - name: Checkout kayobe config
         uses: actions/checkout@v3

@@ -3,9 +3,13 @@ github_output_directory: .github/workflows
 
 github_runs_on: self-hosted
 
-github_image_url: ghcr.io/${{ github.repository }}:latest
+github_registry_url: ghcr.io
+
+github_registry_username: ${{ github.actor }}
 
 github_registry_password: ${{ secrets.GITHUB_TOKEN }}
+
+github_image_name: ${{ github.repository }}:latest
 
 github_kayobe_arguments: {}
 
