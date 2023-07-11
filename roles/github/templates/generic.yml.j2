@@ -33,9 +33,9 @@ jobs:
           /src/.automation/pipeline/%% workflow.file_name[4:-4] %%.sh
         <%- if workflow.arguments is defined +%>
         env:
-          KAYOBE_ENVIRONMENT: '%% kayobe_arguments.KAYOBE_ENVIRONMENT | default(_kayobe_arguments.KAYOBE_ENVIRONMENT) %%'
+          KAYOBE_ENVIRONMENT: '%% kayobe_arguments.KAYOBE_ENVIRONMENT | default(default_kayobe_arguments.KAYOBE_ENVIRONMENT) %%'
           <%- for argument in workflow.arguments +%>
-          %% argument %%: '%% kayobe_arguments[argument] | default(_kayobe_arguments[argument]) %%'
+          %% argument %%: '%% kayobe_arguments[argument] | default(default_kayobe_arguments[argument]) %%'
           <%- endfor +%>
         <%- endif +%>
 <%- filter indent(width=6,first=False) +%>
