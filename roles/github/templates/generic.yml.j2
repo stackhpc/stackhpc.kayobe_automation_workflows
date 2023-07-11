@@ -1,7 +1,7 @@
 <% include "header.yml.j2" +%>
 
 jobs:
-  %% workflow.file_name[4:-4] %%:
+  %% workflow.file_name | splitext | first %%: {# Use the filename without extension as job name +#}
     runs-on: %% github_runs_on %%
     permissions:
       contents: read

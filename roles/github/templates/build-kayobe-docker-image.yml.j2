@@ -12,7 +12,7 @@ env:
   KAYOBE_USER_GID: 1000
 
 jobs:
-  build:
+  %% workflow.file_name | splitext | first %%: {# Use the filename without extension as job name +#}
     runs-on: %% github_runs_on %%
     container: docker:git
     permissions:
