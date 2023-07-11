@@ -171,24 +171,6 @@ github_workflows:
       - KAYOBE_AUTOMATION_PR_URL
       - HOME
 
-  - name: Run overcloud service reconfigure
-    file_name: run-overcloud-service-reconfigure.yml
-    trigger:
-      workflow_dispatch: *github_combined_inputs
-    arguments:
-      - KOLLA_TAGS
-      - KOLLA_LIMIT
-      - KAYOBE_TAGS
-      - KAYOBE_LIMIT
-      - KAYOBE_AUTOMATION_PR_TARGET_BRANCH
-      - KAYOBE_AUTOMATION_PR_REMOTE
-      - KAYOBE_AUTOMATION_PR_GITHUB_USER
-      - KAYOBE_AUTOMATION_PR_AUTH_TOKEN
-      - KAYOBE_AUTOMATION_PR_TYPE
-      - KAYOBE_AUTOMATION_PR_TITLE
-      - KAYOBE_AUTOMATION_PR_URL
-      - HOME
-
   - name: Run overcloud service upgrade
     file_name: run-overcloud-service-upgrade.yml
     trigger:
