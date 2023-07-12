@@ -19,7 +19,7 @@ on:
           Limit tests to this regex. Takes precedence over testSuite.
 
 jobs:
-  name: %% format_file_name(workflow.file_name) %%
+  %% format_file_name(workflow.file_name) %%:
     runs-on: %% github_runs_on %%
     permissions:
       contents: read

@@ -1,7 +1,7 @@
 <%- macro format_file_name(file_name, is_title=False) -%>
   <%- set formatted_name = file_name | splitext | first -%>
   <%- if is_title -%>
-    <%- set formatted_name = formatted_name | replace('-', ' ') | title -%>
+    <%- set formatted_name = formatted_name | replace('-', ' ') | title | regex_replace('Vm','VM') -%>
   <%- endif -%>
   %%- formatted_name -%%
 <%- endmacro -%>
