@@ -1,4 +1,4 @@
-name: Generate kolla config diff
+name: %% format_file_name(workflow.file_name, is_title=true) %%
 
 concurrency:
   group: kolla-diff-${{ github.head_ref }}
@@ -8,7 +8,7 @@ on:
   pull_request:
 
 jobs:
-  %% workflow.file_name | splitext | first %%: {# Use the filename without extension as job name +#}
+  %% format_file_name(workflow.file_name) %%
     runs-on: %% github_runs_on %%
     permissions:
       contents: read

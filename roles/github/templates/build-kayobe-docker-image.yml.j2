@@ -1,4 +1,4 @@
-name: %% workflow.name %%
+name: %% format_file_name(workflow.file_name, is_title=true) %%
 
 on:
   push:
@@ -12,7 +12,7 @@ env:
   KAYOBE_USER_GID: 1000
 
 jobs:
-  %% workflow.file_name | splitext | first %%: {# Use the filename without extension as job name +#}
+  %% format_file_name(workflow.file_name) %%:
     runs-on: %% github_runs_on %%
     container: docker:git
     permissions:
