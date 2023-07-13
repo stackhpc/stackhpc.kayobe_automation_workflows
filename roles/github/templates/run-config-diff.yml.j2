@@ -19,6 +19,9 @@ jobs:
         username: %% github_registry_username %%
         password: %% github_registry_password %%
     steps:
+<% if github_checkout_hook | length >= 1 %>
+      %% github_checkout_hook | indent(width=6, first=false) %%
+<% endif %>
       - name: Checkout kayobe config
         uses: actions/checkout@v3
         with:
@@ -26,6 +29,9 @@ jobs:
            fetch-depth: 0
            ref: ${{ github.ref }}
 
+<% if github_kayobe_hook | length >= 1 %>
+      %% github_kayobe_hook | indent(width=6, first=false) %%
+<% endif %>
       - name: Copy checkout to expected location
         run: |
             sudo cp -rf $GITHUB_WORKSPACE/ /src
@@ -47,3 +53,6 @@ jobs:
       - name: Print diff
         run: |
           cat /tmp/kayobe-config-diff
+<% if github_final_hook | length >= 1 +%>
+      %% github_final_hook | indent(width=6, first=false) -%%
+<% endif %>

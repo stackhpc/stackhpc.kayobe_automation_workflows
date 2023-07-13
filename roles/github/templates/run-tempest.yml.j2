@@ -29,8 +29,10 @@ jobs:
       credentials:
         username: %% github_registry_username %%
         password: %% github_registry_password %%
-
     steps:
+<% if github_checkout_hook | length >= 1 %>
+      %% github_checkout_hook | indent(width=6, first=false) %%
+<% endif %>
       - name: Checkout kayobe config
         uses: actions/checkout@v3
         with:
@@ -39,6 +41,9 @@ jobs:
       - name: Symlink source checkout to expected location
         run: sudo ln -s $PWD /src
 
+<% if github_kayobe_hook | length >= 1 %>
+      %% github_kayobe_hook | indent(width=6, first=false) %%
+<% endif %>
       - name: Run kayobe control host bootstrap
         run: |
           source /src/.automation/functions &&
@@ -84,3 +89,6 @@ jobs:
       - name: Fail if any tests did not pass
         run: |
            test $(wc -l < /stack/tempest-artifacts/failed-tests) -lt 1
+<% if github_final_hook | length >= 1 +%>
+      %% github_final_hook | indent(width=6, first=false) -%%
+<% endif %>

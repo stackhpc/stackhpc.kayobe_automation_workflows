@@ -13,6 +13,12 @@ github_image_name: ${{ github.repository }}:latest
 
 github_kayobe_arguments: {}
 
+github_checkout_hook: ""
+
+github_kayobe_hook: ""
+
+github_final_hook: ""
+
 github_kayobe_inputs: &github_kayobe_inputs
   kayobeLimit:
     description: |
