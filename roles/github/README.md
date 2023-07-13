@@ -46,6 +46,8 @@ The following variables can be used to make small adjustments to the composition
 
 `github_kayobe_arguments`: a dictionary of arguments that can be used to override the default arguments found within `vars/main.yml`. For example if you wanted to change the value of `KAYOBE_ENVIRONMENT` from its default of `production` you can simply add `KAYOBE_ENVIRONMENT` to this dictionary and it will take precedence over the defaults.
 
+`github_*_hook:` see section [Template Hooks](#template-hooks)  for information about this variables
+
 If you wish to make more impactful changes such as which workflows are built and what they contain then see the list of dictionaries called `workflows` in `defaults/main.yml`
 
 `github_workflows:` is a list of dictionaries that contains each of the workflows described above. A given list element is made up of the following:
@@ -60,22 +62,43 @@ If you wish to make more impactful changes such as which workflows are built and
 
 - `use_bespoke`: Some workflows benefit from a dedicated workflow template as they drift away from the main template. Set to `true` if the workflow requires a *bespoke* template and ensure a template `workflow_name.yml.j2` is present.
 
-The following will override `workflows` to ensure only `Run overcloud database backup` is generated.
+The following will override `workflows` to ensure only `Build Kayobe Image` and `Run Kolla Config Diff` is generated.
 
 ```yaml
 github_workflows:
-  - name: Run overcloud database backup
-    file_name: run-overcloud-database-backup.yml
-    trigger:
-      workflow_dispatch: *combined_inputs
-      schedule:
-        cron: "30 0 * * *"
-    arguments:
-      - KOLLA_TAGS
-      - KOLLA_LIMIT
-      - KAYOBE_TAGS
-      - KAYOBE_LIMIT
-      - HOME
+  - "{{ build_kayobe_image }}"
+  - "{{ run_kolla_config_diff }}"
+```
+
+Template Hooks
+--------------
+
+Workflows can be expanded with the use of hooks which are variables that if provided can be inserted into the appropriate location enabling the introduction of additional steps within the workflow job. This could include the use of HashiCorp Vault or installing and configuring a network proxy.
+
+There are currently three hooks available
+
+- `github_checkout_hook`: a hook that occurs before the repository is cloned by the `checkout` action.
+
+- `github_kayobe_hook`: a hook that occurs after the the repository has been cloned and before the kayobe automation task has started.
+
+- `github_final_hook`: a hook that occurs after the kayobe automation task has finished.
+
+A hook must be defined within the variables file for the playbook should be a scalar block string.
+
+```yaml
+github_checkout_hook: |
+  - name: Import secrets via Hashicorp Vault
+    id: secrets
+    uses: hashicorp/vault-action@v2.5.0
+    with:
+      url: https://vault.stackhpc.com:8200
+      method: approle
+      roleId:  ${{ secrets.ROLE_ID }}
+      secretId: ${{ secrets.SECRET_ID }}
+      tlsSkipVerify: true
+      secrets: |
+        stackhpc/data/github kayobe_vault_password_${{ needs.env.outputs.environment }} | KAYOBE_VAULT_PASSWORD ;
+        stackhpc/data/github kayobe_automation_ssh_private_key_${{ needs.env.outputs.environment }} | KAYOBE_AUTOMATION_SSH_PRIVATE_KEY ;
 ```
 
 Example Playbook
