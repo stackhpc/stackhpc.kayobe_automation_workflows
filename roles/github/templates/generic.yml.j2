@@ -26,7 +26,7 @@ jobs:
       - name: Symlink source checkout to expected location
         run: sudo ln -s $PWD /src
 
-      - name: %% workflow.file_name[:-4] | replace('-', ' ') | capitalize %%
+      - name: %% format_file_name(workflow.file_name, is_subtitle=true)  %%
         run: |
           /src/.automation/pipeline/%% workflow.file_name[4:-4] %%.sh
         <%- if workflow.arguments is defined +%>
